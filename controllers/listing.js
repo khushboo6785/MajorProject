@@ -2,8 +2,8 @@ const Listing = require("../models/listing");
 
 module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
-
-  res.render("./listings/index.ejs", { allListings });
+  const countries = await Listing.distinct("country");
+  res.render("./listings/index.ejs", { allListings, countries });
 };
 
 module.exports.renderNewListing = (req, res) => {
@@ -74,4 +74,10 @@ module.exports.destroyListing = async (req, res) => {
   const listing = await Listing.findByIdAndDelete(id);
   req.flash("success", "listing Deleted!");
   res.redirect("/listings");
+};
+module.exports.renderCountry = async (req, res) => {
+  let { country } = req.params;
+  const allListings = await Listing.find({ country: country });
+  res.json({ allListings });
+  // res.render("./listings/index.ejs", { allListings, countries });
 };

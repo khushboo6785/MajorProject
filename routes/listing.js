@@ -17,11 +17,13 @@ router
     isLoggedIn,
     validateListing,
     upload.single("listing[image]"),
-    asyncWrap(listingController.createListing)
+    asyncWrap(listingController.createListing),
   );
 
 //New route
 router.get("/new", isLoggedIn, listingController.renderNewListing);
+//RenderCountry
+router.get("/get/:country", listingController.renderCountry);
 
 router
   .route("/:id")
@@ -30,7 +32,7 @@ router
     isLoggedIn,
     isOwner,
     upload.single("listing[image]"),
-    asyncWrap(listingController.updateListing)
+    asyncWrap(listingController.updateListing),
   )
   .delete(isLoggedIn, isOwner, asyncWrap(listingController.destroyListing));
 
@@ -39,6 +41,6 @@ router.get(
   "/:id/edit",
   isLoggedIn,
   isOwner,
-  asyncWrap(listingController.renderEditListing)
+  asyncWrap(listingController.renderEditListing),
 );
 module.exports = router;
